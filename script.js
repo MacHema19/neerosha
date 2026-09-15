@@ -1,3 +1,34 @@
+
+const siteHeader = document.querySelector(".site-header");
+const navToggle = document.querySelector(".nav-toggle");
+const primaryNav = document.querySelector("#primary-nav");
+
+const setNavOpen = (isOpen) => {
+  siteHeader?.classList.toggle("nav-open", isOpen);
+  navToggle?.setAttribute("aria-expanded", String(isOpen));
+  navToggle?.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
+};
+
+navToggle?.addEventListener("click", () => {
+  setNavOpen(!siteHeader?.classList.contains("nav-open"));
+});
+
+primaryNav?.querySelectorAll("a").forEach((link) => {
+  link.addEventListener("click", () => setNavOpen(false));
+});
+
+document.addEventListener("click", (event) => {
+  if (!siteHeader?.contains(event.target)) {
+    setNavOpen(false);
+  }
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    setNavOpen(false);
+  }
+});
+
 const siteData = window.NEEROSHA_SITE_DATA || {};
 const business = siteData.business || {};
 const services = siteData.services || [];
@@ -47,7 +78,7 @@ if (serviceMenu && services.length) {
 
 const serviceCount = document.querySelector("[data-service-count]");
 if (serviceCount && allServices.length) {
-  serviceCount.textContent = `${allServices.length} Signature Treatments`;
+  serviceCount.textContent = `${allServices.length} Salon Services`;
 }
 
 const serviceSelect = document.querySelector("[data-service-select]");
